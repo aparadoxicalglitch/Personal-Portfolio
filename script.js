@@ -1,5 +1,25 @@
-$(document).ready(function() {
+// Theme toggle functionality
+const themeToggle = document.getElementById('theme-toggle');
+const htmlElement = document.documentElement;
 
+themeToggle.addEventListener('click', () => {
+  const newTheme = htmlElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  htmlElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  updateThemeToggleIcon(newTheme);
+});
+
+// Check for saved theme preference or use device preference
+const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+htmlElement.setAttribute('data-theme', savedTheme);
+updateThemeToggleIcon(savedTheme);
+
+// Function to update theme toggle icon
+function updateThemeToggleIcon(theme) {
+  themeToggle.innerHTML = theme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+}
+
+$(document).ready(function() {
   // Hamburger menu functionality
   $(".menu_icon").click(function() {
     $(".header ul").toggleClass("show");
@@ -12,115 +32,81 @@ $(document).ready(function() {
     $(".header").removeClass("open");
   });
 
-  //sticky header
-    $(window).scroll(function() {
-      if ($(this).scrollTop() > 1) {
-        $(".header-area").addClass("sticky");
-      } else {
-        $(".header-area").removeClass("sticky");
-      }
-  
-      // Update the active section in the header
-      updateActiveSection();
-    });
-  
-    $(".header ul li a").click(function(e) {
-      e.preventDefault(); 
-  
-      var target = $(this).attr("href");
-  
-      if ($(target).hasClass("active-section")) {
-        return; 
-      }
-  
-      if (target === "#home") {
-        $("html, body").animate(
-          {
-            scrollTop: 0 
-          },
-          500
-        );
-      } else {
-        var offset = $(target).offset().top - 40; 
-  
-        $("html, body").animate(
-          {
-            scrollTop: offset
-          },
-          500
-        );
-      }
-  
-      $(".header ul li a").removeClass("active");
-      $(this).addClass("active");
-    });
-  
+  // Sticky header and active section update
+  $(window).scroll(function() {
+    $(".header-area").toggleClass("sticky", $(this).scrollTop() > 1);
+    updateActiveSection();
+  });
 
-    //Initial content revealing js
-    ScrollReveal({
-      distance: "100px",
-      duration: 2000,
-      delay: 200
+  // Smooth scrolling for navigation links
+  $(".header ul li a").click(function(e) {
+    e.preventDefault();
+    const target = $(this).attr("href");
+    
+    if ($(target).hasClass("active-section")) return;
+
+    const scrollTo = target === "#home" ? 0 : $(target).offset().top - 40;
+    $("html, body").animate({ scrollTop: scrollTo }, 500);
+
+    $(".header ul li a").removeClass("active");
+    $(this).addClass("active");
+  });
+
+  // Initial content revealing
+  ScrollReveal({
+    distance: "100px",
+    duration: 2000,
+    delay: 200
   });
 
   ScrollReveal().reveal(".header a, .profile-photo, .about-content, .education, .skills-title", {
-      origin: "left"
+    origin: "left"
   });
   ScrollReveal().reveal(".header ul, .profile-text, .about-skills, .internship, .skills", {
-      origin: "right"
+    origin: "right"
   });
   ScrollReveal().reveal(".project-title, .contact-title", {
-      origin: "top"
+    origin: "top"
   });
   ScrollReveal().reveal(".projects, .contact", {
-      origin: "bottom"
+    origin: "bottom"
   });
 
-  //contact form to excel sheet
+  // Contact form submission to Google Sheet
   const scriptURL = 'https://script.google.com/macros/s/AKfycbzUSaaX3XmlE5m9YLOHOBrRuCh2Ohv49N9bs4bew7xPd1qlgpvXtnudDs5Xhp3jF-Fx/exec';
-  const form = document.forms['submitToGoogleSheet']
-  const msg = document.getElementById("msg")
+  const form = document.forms['submitToGoogleSheet'];
+  const msg = document.getElementById("msg");
 
   form.addEventListener('submit', e => {
-      e.preventDefault()
-      fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-          .then(response => {
-              msg.innerHTML = "Message sent successfully"
-              setTimeout(function () {
-                  msg.innerHTML = ""
-              }, 5000)
-              form.reset()
-          })
-          .catch(error => console.error('Error!', error.message))
-  })
-    
+    e.preventDefault();
+    fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+      .then(response => {
+        msg.innerHTML = "Message sent successfully";
+        setTimeout(() => msg.innerHTML = "", 5000);
+        form.reset();
+      })
+      .catch(error => console.error('Error!', error.message));
   });
-  
-  function updateActiveSection() {
-    var scrollPosition = $(window).scrollTop();
-  
-    // Checking if scroll position is at the top of the page
-    if (scrollPosition === 0) {
-      $(".header ul li a").removeClass("active");
-      $(".header ul li a[href='#home']").addClass("active");
-      return;
-    }
-  
-    // Iterate through each section and update the active class in the header
-    $("section").each(function() {
-      var target = $(this).attr("id");
-      var offset = $(this).offset().top;
-      var height = $(this).outerHeight();
-  
-      if (
-        scrollPosition >= offset - 40 &&
-        scrollPosition < offset + height - 40
-      ) {
-        $(".header ul li a").removeClass("active");
-        $(".header ul li a[href='#" + target + "']").addClass("active");
-      }
-    });
-  }
-  
+});
 
- 
+// Function to update active section in the header
+function updateActiveSection() {
+  const scrollPosition = $(window).scrollTop();
+
+  if (scrollPosition === 0) {
+    $(".header ul li a").removeClass("active");
+    $(".header ul li a[href='#home']").addClass("active");
+    return;
+  }
+
+  $("section").each(function() {
+    const target = $(this).attr("id");
+    const offset = $(this).offset().top;
+    const height = $(this).outerHeight();
+
+    if (scrollPosition >= offset - 40 && scrollPosition < offset + height - 40) {
+      $(".header ul li a").removeClass("active");
+      $(".header ul li a[href='#" + target + "']").addClass("active");
+    }
+  });
+}
