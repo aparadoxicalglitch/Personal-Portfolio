@@ -176,6 +176,23 @@ body{
   display: none;
 }
 
+#theme-toggle, #theme-toggle-mobile {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: var(--text-color);
+  transition: 0.3s;
+}
+
+#theme-toggle:hover, #theme-toggle-mobile:hover {
+  color: var(--primary-color);
+}
+
+.theme-toggle-mobile {
+  display: none;
+}
+
 /*---------------------------HomePage--------------------------*/
 
 .FirstElement{
@@ -683,87 +700,71 @@ body{
 }  
 
 /* Mobile Layout */
-@media only screen and (max-width:767px){
-  .container{
-    width: 350px;
+@media only screen and (max-width: 767px) {
+  .container {
+      width: 95%;
+      padding: 0 15px;
   }
 
-  .header .menu_icon {
-    display: block;
-  }
   .header ul {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background-color: var(--secondary-bg);
-    padding: 20px;
-    z-index: 99;
-    box-shadow: 0 5px 10px var(--shadow-color);
+      display: none;
   }
 
-  .header ul.show {
-    display: block;
+  .theme-toggle-desktop {
+      display: none;
   }
 
-  .header ul li {
-    margin: 10px 0;
+  .theme-toggle-mobile {
+      display: block;
   }
 
-  .header ul li a {
-    display: block;
-    padding: 10px 0;
+  .header {
+      justify-content: space-between;
+      align-items: center;
   }
 
-  .header.open {
-    background-color: var(--secondary-bg);
+  .logo {
+      font-size: 20px;
   }
 
-  .header i{
-    color: var(--text-color);
+  .FirstElement {
+      flex-direction: column;
+      padding-top: 2rem;
   }
 
-  .profile-text{
-    width: 350px;
+  .profile-text {
+      padding: 40px 10px;
+      text-align: justify;
   }
-  .FirstElement .profile-text p{
-    text-align: justify;
+
+  .about {
+      flex-direction: column;
   }
-  .about{
-    flex-direction: column;
-    flex-basis: 100%;
-    margin-bottom: 30px;
+
+  .about-skills {
+      width: 100%;
+      margin-top: 30px;
   }
-  .about-skills{
-    width: 100%;
-    margin-top: 30px;
-  }
+
   .education-content .row {
-    flex-direction: column;
-    height: auto;
-    margin-bottom: 50px;
+      flex-direction: column;
+      height: auto;
+      margin-bottom: 50px;
   }
 
   .education-content .row .education,
   .education-content .row .internship {
-    flex-basis: 100%;
-    max-width: 100%;
-    margin-top: 30px;
+      flex-basis: 100%;
+      max-width: 100%;
+      margin-top: 30px;
   }
-  .project{
-    flex-basis: 100%;
-    margin-bottom: 30px;
+
+  .project {
+      flex-basis: 100%;
+      margin-bottom: 30px;
   }
 
   .skill {
-    flex-basis: 100%;
-  }
-
-  .header.open {
-    background-color: var(--secondary-bg);
-    padding: 10px;
-    box-shadow: 0 2px 10px var(--shadow-color);
+      flex-basis: 100%;
   }
 }
-
