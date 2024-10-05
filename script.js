@@ -1,16 +1,18 @@
 // Theme toggle functionality
+// Theme toggle functionality
 const themeToggle = document.getElementById('theme-toggle');
 const htmlElement = document.documentElement;
 
 themeToggle.addEventListener('click', () => {
-  const newTheme = htmlElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  const currentTheme = htmlElement.getAttribute('data-theme') || 'light';
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
   htmlElement.setAttribute('data-theme', newTheme);
   localStorage.setItem('theme', newTheme);
   updateThemeToggleIcon(newTheme);
 });
 
-// Check for saved theme preference or use device preference
-const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+// Check for saved theme preference or use light theme as default
+const savedTheme = localStorage.getItem('theme') || 'light';
 htmlElement.setAttribute('data-theme', savedTheme);
 updateThemeToggleIcon(savedTheme);
 

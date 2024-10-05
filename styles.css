@@ -156,6 +156,10 @@ body{
   color: var(--primary-color);
 }
 
+#theme-toggle .fa-moon {
+  display: inline-block;
+}
+
 #theme-toggle .fa-sun {
   display: none;
 }
