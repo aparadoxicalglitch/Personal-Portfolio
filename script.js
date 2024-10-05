@@ -1,5 +1,4 @@
 // Theme toggle functionality
-// Theme toggle functionality
 const themeToggle = document.getElementById('theme-toggle');
 const htmlElement = document.documentElement;
 
@@ -22,16 +21,33 @@ function updateThemeToggleIcon(theme) {
 }
 
 $(document).ready(function() {
-  // Hamburger menu functionality
-  $(".menu_icon").click(function() {
-    $(".header ul").toggleClass("show");
-    $(".header").toggleClass("open");
+  const $menuIcon = $(".menu_icon");
+  const $headerUl = $(".header ul");
+  const $header = $(".header");
+  const $headerLinks = $(".header ul li a");
+
+  // Improved hamburger menu functionality
+  $menuIcon.click(function(e) {
+    e.stopPropagation(); // Prevent the click from propagating to the document
+    $headerUl.toggleClass("show");
+    $header.toggleClass("open");
+    $menuIcon.toggleClass("active");
+  });
+
+  // Close menu when clicking outside
+  $(document).click(function(e) {
+    if (!$header.is(e.target) && $header.has(e.target).length === 0) {
+      $headerUl.removeClass("show");
+      $header.removeClass("open");
+      $menuIcon.removeClass("active");
+    }
   });
 
   // Close menu when a link is clicked
-  $(".header ul li a").click(function() {
-    $(".header ul").removeClass("show");
-    $(".header").removeClass("open");
+  $headerLinks.click(function() {
+    $headerUl.removeClass("show");
+    $header.removeClass("open");
+    $menuIcon.removeClass("active");
   });
 
   // Sticky header and active section update
@@ -41,7 +57,7 @@ $(document).ready(function() {
   });
 
   // Smooth scrolling for navigation links
-  $(".header ul li a").click(function(e) {
+  $headerLinks.click(function(e) {
     e.preventDefault();
     const target = $(this).attr("href");
     
@@ -50,7 +66,7 @@ $(document).ready(function() {
     const scrollTo = target === "#home" ? 0 : $(target).offset().top - 40;
     $("html, body").animate({ scrollTop: scrollTo }, 500);
 
-    $(".header ul li a").removeClass("active");
+    $headerLinks.removeClass("active");
     $(this).addClass("active");
   });
 

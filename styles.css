@@ -135,11 +135,15 @@ body{
   color: var(--primary-color);
 }
 
-.header .menu_icon{
-  color: var(--text-color);
-  font-size: 18px;
-  cursor: pointer;
+.header .menu_icon {
   display: none;
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.header .menu_icon.active {
+  transform: rotate(90deg);
 }
 
 /* Theme Toggle Button */
@@ -687,7 +691,7 @@ body{
   .header .menu_icon {
     display: block;
   }
-  .header ul{
+  .header ul {
     display: none;
     position: absolute;
     top: 100%;
@@ -696,7 +700,26 @@ body{
     background-color: var(--secondary-bg);
     padding: 20px;
     z-index: 99;
+    box-shadow: 0 5px 10px var(--shadow-color);
   }
+
+  .header ul.show {
+    display: block;
+  }
+
+  .header ul li {
+    margin: 10px 0;
+  }
+
+  .header ul li a {
+    display: block;
+    padding: 10px 0;
+  }
+
+  .header.open {
+    background-color: var(--secondary-bg);
+  }
+
   .header i{
     color: var(--text-color);
   }
@@ -744,6 +767,3 @@ body{
   }
 }
 
-.header ul.show {
-  display: block;
-}
