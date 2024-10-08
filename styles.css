@@ -525,16 +525,16 @@ body{
 /* Skill-specific colors remain unchanged */
 
 /*---------------------------Projects---------------------------*/
-.project-content{
+.project-content {
   padding: 90px 0;
 }
 
-.project-title{
+.project-title {
   margin-bottom: 60px;
   text-align: center;
 }
 
-.project-title h4{
+.project-title h4 {
   text-transform: uppercase;
   font-size: 40px;
   line-height: 40px;
@@ -542,30 +542,31 @@ body{
   margin-bottom: 20px;
 }
 
-.project-title p{
+.project-title p {
   color: var(--text-color);
 }
 
-.projects{
+.projects {
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
+  gap: 30px; /* This creates consistent spacing between items */
+  justify-content: center; /* Center the items when there's extra space */
 }
 
-.project{
+.project {
   color: var(--text-color);
   border: 2px solid var(--border-color);
   border-radius: 10px;
-  width: 100%;
-  position: relative;
   padding: 25px;
   text-align: center;
-  flex-basis: 32%;
+  flex: 1 1 calc(33.333% - 20px); /* Grow, shrink, and basis */
+  min-width: 250px; /* Minimum width to maintain readability */
+  max-width: calc(33.333% - 20px); /* Maximum width to maintain 3 columns */
   transition: .3s;
   background-color: var(--secondary-bg);
 }
 
-.project i{
+.project i {
   background-color: var(--primary-color);
   width: 60px;
   height: 60px;
@@ -575,21 +576,23 @@ body{
   border-radius: 50%;
 }
 
-.project h4{
+.project h4 {
   font-size: 26px;
   text-transform: capitalize;
   margin: 20px 0;
 }
 
-.project .project-text{
+.project .project-text {
   text-align: justify;
 }
 
-.project:hover{
+.project:hover {
   border-color: var(--primary-color);
   transform: translateY(-5px);
   box-shadow: 0 10px 20px var(--shadow-color);
 }
+
+
 
 /*---------------------------Contact Me---------------------------*/
 .contact-content{
@@ -760,11 +763,12 @@ body{
   }
 
   .project {
-      flex-basis: 100%;
-      margin-bottom: 30px;
+    flex: 1 1 100%; /* Full width on mobile */
+    max-width: 100%;
   }
+}
+
 
   .skill {
       flex-basis: 100%;
   }
-}
